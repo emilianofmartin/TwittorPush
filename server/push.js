@@ -68,7 +68,10 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
     console.log(subscription);
     let error = "";
     const pushProm = webpush.sendNotification(subscription, JSON.stringify(post))
-        .then(console.log("Notificación enviada"))
+        .then({
+            console.log("Notificación enviada");
+            error = "Sent!";
+        })
         .catch(err => {error = err});
 
     sentNotifications.push(pushProm);
