@@ -66,8 +66,10 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
         }
       }
     console.log(subscription);
+    let error = "";
     const pushProm = webpush.sendNotification(subscription, JSON.stringify(post))
-        .then(console.log("Notificación enviada"));
+        .then(console.log("Notificación enviada"))
+        .catch(err => error = err);
 
     sentNotifications.push(pushProm);
 
@@ -76,4 +78,6 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
             subscriptions = subscriptions.filter( subs => !subs.delete);
             fs.writeFileSync(`${__dirname}/subs-db.json`, JSON.stringify(subscriptions));
         });
+
+    return error;
 };

@@ -128,7 +128,8 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
           icon: 'images/xmark.png'
         },
       ],
-      url: '/index.php'
+      url: '/index.php',
+      recipients: []
     }
 
     let recipients = req.body.recipients;
@@ -147,7 +148,11 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
     auth = auth.split(',');
 
     for(var i=0;i<recipients.length;i++) {
-      push.sendPushSubscription(post, recipients[i], p256[i], auth[i]);
+      error = push.sendPushSubscription(post, recipients[i], p256[i], auth[i]);
+      post.recipients.push({
+        recipient: recipients[i],
+        error: error
+      })
     }
     rsp.json(post);
   }
