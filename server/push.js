@@ -53,7 +53,7 @@ module.exports.sendPushToAll = (post) => {
         });
 };
 
-module.exports.sendPushSubscription = async (post, recipient, p256, auth) => {
+module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
     console.log("Mandando PUSHES");
     const subscription = {
         endpoint: `https://fcm.googleapis.com/fcm/send/${recipient}`,
@@ -83,7 +83,7 @@ module.exports.sendPushSubscription = async (post, recipient, p256, auth) => {
     
     return error;
 */
-    err = await webpush.sendNotification(subscription, JSON.stringify(post))
+    error = webpush.sendNotification(subscription, JSON.stringify(post))
         .then(() => {
             console.log("Notificación enviada");
             return "Sent!";
@@ -92,5 +92,7 @@ module.exports.sendPushSubscription = async (post, recipient, p256, auth) => {
             return err;
         });
 
-    return err;
+    Promise.all(error);
+
+    return error;
 };

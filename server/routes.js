@@ -162,8 +162,7 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
       err = push.sendPushSubscription(post, recipients[i], p256[i], auth[i]);
       post.recipients.push({
         recipient: recipients[i],
-        error: "WTF!?",
-        err
+        error: err
       })
     }
     rsp.json(post);
