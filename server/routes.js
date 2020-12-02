@@ -103,7 +103,7 @@ router.post('/push2', (req, rsp) => {
 });
 
 
-router.post('/pushBookingWasConfirmed', (req, rsp) => {
+router.post('/pushBookingIsAvailable', (req, rsp) => {
   //console.log(req);
   const auth = req.headers.authorization;
 
@@ -117,6 +117,93 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
     let body = "El curso <(curso)> de <(sucursal)> que empieza a las <(horario)> del día <(día)> ya está disponible para que sea reservado.";
 
     //body = body.replace("<(cuando)>", new Date);
+    body = body.replace("<(curso)>", req.body.curso);
+    body = body.replace("<(sucursal)>", req.body.sucursal);
+    body = body.replace("<(horario)>", req.body.horario);
+    body = body.replace("<(día)>", req.body.dia);
+
+    const post = {
+      serverVersion,
+      title: "Reserva disponible",
+      body: body,
+      type: 'clss',
+      icon: `pushimage.php?file=pushicon.png`,
+      badge: 'pushimage.php?file=pushdancing.png',
+      vibrate: [100,50,100,50,100,50,100,50,100,50],
+      data: {
+        type: 'clss',
+        cursId: req.body.cursId,
+        cursName: req.body.curso,
+        teacherId: req.body.teacherId,
+        room: req.body.room,
+        locationId: req.body.locationID,
+        location: req.body.sucursal,
+        clssTime: req.body.clssTime,
+      },
+      actions: [
+        {action: 'view', title: "Reservar",
+          icon: 'images/checkmark.png'},
+        {action: 'close', title: "Cerrar",
+          icon: 'images/xmark.png'},
+      ],
+      url: '/index.php',
+      recipients: []
+    }
+
+    let recipients = req.body.recipients;
+    let p256 = req.body.p256;
+    let auth = req.body.auth;
+
+    /*
+    console.log(recipients);
+    console.log(p256);
+    console.log(auth);
+    */
+
+    //push.sendPushToAll(post);
+    recipients = recipients.split(',');
+    p256 = p256.split(',');
+    auth = auth.split(',');
+    let err = "";
+
+    for(var i=0;i<recipients.length;i++) {
+      err = "Trying";
+      err = push.sendPushSubscription(post, recipients[i], p256[i], auth[i]);
+      post.recipients.push({
+        recipient: recipients[i],
+        error: err
+      })
+    }
+    rsp.json(post);
+  }
+  else {
+    rsp.json({
+      ok:false,
+      error: 'Authorization is missing or wrong'
+    });
+  }
+});
+
+router.post('/pushBookingWasConfirmed', (req, rsp) => {
+  //console.log(req);
+  const auth = req.headers.authorization;
+
+  /*
+  console.log("-"+auth+"-");
+  console.log("true", (auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1"));
+  */
+  if(auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1") {
+    //console.log("Authorized!");
+    //let body = "<(cuando)>\n\nEl curso <(curso)> de <(sucursal)> que empieza a las <(horario)> del día <(día)> ya está disponible para que sea reservado.";
+    let body = "";
+    if(req.body.gender == 2)
+      body = "Hola, <(nombre)>. Has sido anotada en el curso <(curso)> de <(sucursal)> que empieza a las <(horario)> del día <(día)> luego de que se abriera un cupo.";
+    else
+      body = "Hola, <(nombre)>. Has sido anotado en el curso <(curso)> de <(sucursal)> que empieza a las <(horario)> del día <(día)> luego de que se abriera un cupo.";
+  
+
+    //body = body.replace("<(cuando)>", new Date);
+    body = body.replace("<(nombre)>", req.body.nombre);
     body = body.replace("<(curso)>", req.body.curso);
     body = body.replace("<(sucursal)>", req.body.sucursal);
     body = body.replace("<(horario)>", req.body.horario);
