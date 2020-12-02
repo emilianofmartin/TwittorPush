@@ -9,7 +9,7 @@ webpush.setVapidDetails(
     vapid.privateKey
   );
 
-const subscriptions = require('./subs-db.json');
+let subscriptions = require('./subs-db.json');
 //Si purgáramos todas las subscripciones, habría que guardar un [] en subs-db.json
 
 module.exports.getKey = () => {
@@ -24,7 +24,56 @@ module.exports.addSubscription = (subscription) => {
 }
 
 module.exports.sendPushToAll = (post) => {
+    console.log("Mandando PUSHES");
+    const sentNotifications = [];
+
     subscriptions.forEach((subscription, i) => {
-        webpush.sendNotification(subscription, JSON.stringify(post));
+        console.log(subscription);
+        const pushProm = webpush.sendNotification(subscription, JSON.stringify(post))
+            .then(console.log("Notificación enviada"))
+            .catch(err => {
+                console.log("Notificación falló");
+                console.log(err.statusCode);
+
+                if(err.statusCode === 410 ) {
+                    //GONE
+                    subscriptions[i].delete = true;
+                    //No la borro directamente, porque si lo hiciera
+                    //saltaría al siguiente elemento del forEach
+                }
+            });
+
+        sentNotifications.push(pushProm);
     });
+
+    Promise.all(sentNotifications)
+        .then(() => {
+            subscriptions = subscriptions.filter( subs => !subs.delete);
+            fs.writeFileSync(`${__dirname}/subs-db.json`, JSON.stringify(subscriptions));
+        });
+};
+
+module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
+    console.log("Mandando PUSHES");
+    const sentNotifications = [];
+
+    const subscription = {
+        endpoint: `https://fcm.googleapis.com/fcm/send/${recipient}`,
+        expirationTime: null,
+        keys: {
+          p256dh: `${p256}`,
+          auth: `${auth}`
+        }
+      }
+    console.log(subscription);
+    const pushProm = webpush.sendNotification(subscription, JSON.stringify(post))
+        .then(console.log("Notificación enviada"));
+
+    sentNotifications.push(pushProm);
+
+    Promise.all(sentNotifications)
+        .then(() => {
+            subscriptions = subscriptions.filter( subs => !subs.delete);
+            fs.writeFileSync(`${__dirname}/subs-db.json`, JSON.stringify(subscriptions));
+        });
 };

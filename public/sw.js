@@ -143,12 +143,59 @@ self.addEventListener('push', e => {
     const options = {
         body: data.body,
         //icon: 'img/icons/icon-72x72x.png',
-        icon: `img/avatars/${data.user}.jpg`,
-        badge: 'img/favico.ico',
-        image: 'https://datainfox.com/wp-content/uploads/2017/10/avengers-tower.jpg',
-        vibrate: [125,75,125,275,200,275,125,75,125,275,200,600,200,600],
-        openUrl: '/'
+        icon: data.icon || `img/avatars/${data.user}.jpg`,
+        badge: data.badge || 'img/favico.ico',
+        image: data.image || 'https://datainfox.com/wp-content/uploads/2017/10/avengers-tower.jpg',
+        vibrate: data.vibrate || [125,75,125,275,200,275,125,75,125,275,200,600,200,600],
+        openUrl: data.url || '/',
+        data: {
+            url: '/',
+            id: data.user
+        },
+        actions: [
+            {
+                action: 'thor-action',
+                title: 'Thor',
+                icon: 'img/avatar/thor.jpg'
+            },
+            {
+                action: 'ironman-action',
+                title: 'Ironman',
+                icon: 'img/avatar/ironman.jpg'
+            }
+        ]
     };
 
     e.waitUntil(self.registration.showNotification(title, options));
 });
+
+self.addEventListener('notificationclose', e => {
+    console.log('Notificación cerrada', e);
+})
+
+self.addEventListener('notificationclick', e => {
+    const notification = e.notification;
+    const action = e.action;
+
+    console.log({notification, action});
+
+    const answer = clients.matchAll()
+        .then(allClients => {
+            let client = allClients.find(c => {
+                return c.visibilityState === 'visible';
+            })
+
+
+            if(client !== undefined) {
+                client.navigate(notification.data.url);
+                client.focus();
+            }
+            else {
+                clients.openWindow(notification.data.url);
+            }
+
+            return notification.close();   //Para que se cierre la notificación
+        });
+
+    e.waitUntil(answer);
+})
