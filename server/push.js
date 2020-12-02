@@ -55,8 +55,6 @@ module.exports.sendPushToAll = (post) => {
 
 module.exports.sendPushSubscription = async (post, recipient, p256, auth) => {
     console.log("Mandando PUSHES");
-    const sentNotifications = [];
-
     const subscription = {
         endpoint: `https://fcm.googleapis.com/fcm/send/${recipient}`,
         expirationTime: null,
@@ -94,5 +92,5 @@ module.exports.sendPushSubscription = async (post, recipient, p256, auth) => {
             return err;
         });
 
-    return "WTF!?";
+    return err;
 };
