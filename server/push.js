@@ -85,13 +85,12 @@ module.exports.sendPushSubscription = async (post, recipient, p256, auth) => {
     
     return error;
 */
-    let error = "Trying..."
-    await webpush.sendNotification(subscription, JSON.stringify(post))
+    return await webpush.sendNotification(subscription, JSON.stringify(post))
         .then(() => {
             console.log("Notificación enviada");
-            error = "Sent!";
+            return "Sent!";
         })
-        .catch(err => {error = err});
-
-    return error;
+        .catch(err => {
+            return err;
+        });
 };
