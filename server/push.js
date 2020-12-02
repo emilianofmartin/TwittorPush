@@ -53,7 +53,7 @@ module.exports.sendPushToAll = (post) => {
         });
 };
 
-module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
+module.exports.sendPushSubscription = async (post, recipient, p256, auth) => {
     console.log("Mandando PUSHES");
     const subscription = {
         endpoint: `https://fcm.googleapis.com/fcm/send/${recipient}`,
@@ -92,7 +92,7 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
             return err;
         });
 
-    Promise.all(error);
+    await Promise.all(error);
 
     return error;
 };
