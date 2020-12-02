@@ -91,7 +91,7 @@ module.exports.sendPushSubscription = async (post, recipient, p256, auth) => {
             console.log("Notificación enviada");
             error = "Sent!";
         })
-        .catch(err => {error = "Error"});
+        .catch(err => {error = err});
 
     return error;
 };

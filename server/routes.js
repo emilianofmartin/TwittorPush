@@ -158,10 +158,10 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
 
     for(var i=0;i<recipients.length;i++) {
       err = "Trying";
-      err = push.sendPushSubscription(post, recipients[i], p256[i], auth[i]);
+      err = await push.sendPushSubscription(post, recipients[i], p256[i], auth[i]);
       post.recipients.push({
         recipient: recipients[i],
-        error: "Tried!"
+        error: err
       })
     }
     rsp.json(post);
