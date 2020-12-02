@@ -85,7 +85,7 @@ module.exports.sendPushSubscription = async (post, recipient, p256, auth) => {
     
     return error;
 */
-    return await webpush.sendNotification(subscription, JSON.stringify(post))
+    err = await webpush.sendNotification(subscription, JSON.stringify(post))
         .then(() => {
             console.log("Notificación enviada");
             return "Sent!";
@@ -93,4 +93,6 @@ module.exports.sendPushSubscription = async (post, recipient, p256, auth) => {
         .catch(err => {
             return err;
         });
+
+    return "WTF!?";
 };
