@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const push = require('./push')
-
+const serverVersion = '1.0.1';
 const mensajes = [
 
   {
@@ -123,6 +123,7 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
     body = body.replace("<(día)>", req.body.dia);
 
     const post = {
+      serverVersion,
       title: "Reserva disponible",
       body: body,
       type: 'clss',
