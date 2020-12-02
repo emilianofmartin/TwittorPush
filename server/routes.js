@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const push = require('./push')
-const serverVersion = '1.0.2';
+const serverVersion = '1.0.3';
 const mensajes = [
 
   {
@@ -178,7 +178,6 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
   */
   if(auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1") {
     //console.log("Authorized!");
-    //let body = "<(cuando)>\n\nEl curso <(curso)> de <(sucursal)> que empieza a las <(horario)> del día <(día)> ya está disponible para que sea reservado.";
     let body = "";
     if(req.body.gender == 2)
       body = "Hola, <(nombre)>. Has sido anotada en el curso <(curso)> de <(sucursal)> que empieza a las <(horario)> del día <(día)> luego de que se abriera un cupo.";
@@ -195,11 +194,72 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
 
     const post = {
       serverVersion,
-      title: "Reserva disponible",
+      title: "Reserva realizada",
       body: body,
       type: 'clss',
       icon: `pushimage.php?file=pushicon.png`,
       badge: 'pushimage.php?file=pushdancing.png',
+      vibrate: [100,50,100,50,100,50,100,50,100,50],
+      actions: [
+        {
+          action: 'close',
+          title: "Reserva realizada",
+          icon: 'images/xmark.png'
+        },
+      ],
+      url: '/index.php',
+      recipients: []
+    }
+
+    let recipients = req.body.recipients;
+    let p256 = req.body.p256;
+    let auth = req.body.auth;
+
+    /*
+    console.log(recipients);
+    console.log(p256);
+    console.log(auth);
+    */
+
+    ({ recipients, p256, auth } = processPost(recipients, p256, auth, post));
+    rsp.json(post);
+  }
+  else {
+    rsp.json({
+      ok:false,
+      error: 'Authorization is missing or wrong'
+    });
+  }
+});
+
+router.post('/pushNewMessage', (req, rsp) => {
+  //console.log(req);
+  const auth = req.headers.authorization;
+
+  /*
+  console.log("-"+auth+"-");
+  console.log("true", (auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1"));
+  */
+  if(auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1") {
+    //console.log("Authorized!");
+    let body = "Hola, <(nombre)>. Hay un nuevo mensaje en el grupo <(grupo)> de <(remitente)>:\n\n'<(mensaje)>'";
+  
+
+    //body = body.replace("<(cuando)>", new Date);
+    body = body.replace("<(nombre)>", req.body.nombre);
+    body = body.replace("<(grupo)>", req.body.grupo);
+    body = body.replace("<(remitente)>", req.body.remitente);
+    body = body.replace("<(mensaje)>", req.body.mensaje);
+
+    const post = {
+      serverVersion,
+      title: "Nuevo mensaje",
+      body: body,
+      type: 'msg',
+      icon: `pushimage.php?file=pushicon.png`,
+      badge: 'pushimage.php?file=pushnewmessage.png',
+      forum: req.body.groupID,
+      folder: '',
       vibrate: [100,50,100,50,100,50,100,50,100,50],
       actions: [
         {
@@ -232,8 +292,6 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
     });
   }
 });
-
-
 
 module.exports = router;
 
