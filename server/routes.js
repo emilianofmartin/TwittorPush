@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const push = require('./push')
-const serverVersion = '1.0.1';
+const serverVersion = '1.0.2';
 const mensajes = [
 
   {
@@ -162,7 +162,8 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
       err = push.sendPushSubscription(post, recipients[i], p256[i], auth[i]);
       post.recipients.push({
         recipient: recipients[i],
-        error: "WTF!?"
+        error: "WTF!?",
+        err
       })
     }
     rsp.json(post);
