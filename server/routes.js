@@ -157,20 +157,7 @@ router.post('/pushBookingIsAvailable', (req, rsp) => {
     console.log(auth);
     */
 
-    //push.sendPushToAll(post);
-    recipients = recipients.split(',');
-    p256 = p256.split(',');
-    auth = auth.split(',');
-    let err = "";
-
-    for(var i=0;i<recipients.length;i++) {
-      err = "Trying";
-      err = push.sendPushSubscription(post, recipients[i], p256[i], auth[i]);
-      post.recipients.push({
-        recipient: recipients[i],
-        error: err
-      })
-    }
+   ({ recipients, p256, auth } = processPost(recipients, p256, auth, post));
     rsp.json(post);
   }
   else {
@@ -235,20 +222,7 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
     console.log(auth);
     */
 
-    //push.sendPushToAll(post);
-    recipients = recipients.split(',');
-    p256 = p256.split(',');
-    auth = auth.split(',');
-    let err = "";
-
-    for(var i=0;i<recipients.length;i++) {
-      err = "Trying";
-      err = push.sendPushSubscription(post, recipients[i], p256[i], auth[i]);
-      post.recipients.push({
-        recipient: recipients[i],
-        error: err
-      })
-    }
+    ({ recipients, p256, auth } = processPost(recipients, p256, auth, post));
     rsp.json(post);
   }
   else {
@@ -259,4 +233,23 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
   }
 });
 
+
+
 module.exports = router;
+
+function processPost(recipients, p256, auth, post) {
+  recipients = recipients.split(',');
+  p256 = p256.split(',');
+  auth = auth.split(',');
+  let err = "";
+
+  for (var i = 0; i < recipients.length; i++) {
+    err = "Trying";
+    err = push.sendPushSubscription(post, recipients[i], p256[i], auth[i]);
+    post.recipients.push({
+      recipient: recipients[i],
+      error: err
+    });
+  }
+  return { recipients, p256, auth };
+}
