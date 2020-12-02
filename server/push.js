@@ -66,6 +66,7 @@ module.exports.sendPushSubscription = async (post, recipient, p256, auth) => {
         }
       }
     console.log(subscription);
+/*
     let error = "Trying..."
     const pushProm = webpush.sendNotification(subscription, JSON.stringify(post))
         .then(() => {
@@ -82,5 +83,15 @@ module.exports.sendPushSubscription = async (post, recipient, p256, auth) => {
             fs.writeFileSync(`${__dirname}/subs-db.json`, JSON.stringify(subscriptions));
         });
     
+    return error;
+*/
+    let error = "Trying..."
+    await webpush.sendNotification(subscription, JSON.stringify(post))
+        .then(() => {
+            console.log("Notificación enviada");
+            error = "Sent!";
+        })
+        .catch(err => {error = "Error"});
+
     return error;
 };
