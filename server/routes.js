@@ -113,7 +113,7 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
   */
   if(auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1") {
     //console.log("Authorized!");
-    let body = "<(cuando)><br><br>El curso <(curso)> de <(sucursal)> que empieza a las <(horario)> del día <(día)> ya está disponible para que sea reservado.";
+    let body = "<(cuando)>\n\nEl curso <(curso)> de <(sucursal)> que empieza a las <(horario)> del día <(día)> ya está disponible para que sea reservado.";
 
     body = body.replace("<(cuando)>", new Date);
     body = body.replace("<(curso)>", req.body.curso);
@@ -155,10 +155,10 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
     auth = auth.split(',');
 
     for(var i=0;i<recipients.length;i++) {
-      error = push.sendPushSubscription(post, recipients[i], p256[i], auth[i]);
+      const err = push.sendPushSubscription(post, recipients[i], p256[i], auth[i]);
       post.recipients.push({
         recipient: recipients[i],
-        error: error
+        error: err
       })
     }
     rsp.json(post);
