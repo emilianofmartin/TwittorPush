@@ -203,7 +203,7 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
       actions: [
         {
           action: 'close',
-          title: "Reserva realizada",
+          title: "Cerrar",
           icon: 'images/xmark.png'
         },
       ],
@@ -264,7 +264,7 @@ router.post('/pushNewMessage', (req, rsp) => {
       actions: [
         {
           action: 'close',
-          title: "Reserva disponible",
+          title: "Cerrar",
           icon: 'images/xmark.png'
         },
       ],
