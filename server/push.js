@@ -53,7 +53,7 @@ module.exports.sendPushToAll = (post) => {
         });
 };
 
-module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
+module.exports.sendPushSubscription = async (post, recipient, p256, auth) => {
     console.log("Mandando PUSHES");
     const sentNotifications = [];
 
@@ -66,7 +66,7 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
         }
       }
     console.log(subscription);
-    let error = "Trying...";
+    let error = "Trying..."
     const pushProm = webpush.sendNotification(subscription, JSON.stringify(post))
         .then(() => {
             console.log("Notificación enviada");
@@ -76,10 +76,11 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
 
     sentNotifications.push(pushProm);
 
-    Promise.all(sentNotifications)
+    await Promise.all(sentNotifications)
         .then(() => {
             subscriptions = subscriptions.filter( subs => !subs.delete);
             fs.writeFileSync(`${__dirname}/subs-db.json`, JSON.stringify(subscriptions));
-            return error;
         });
+    
+    return error;
 };
