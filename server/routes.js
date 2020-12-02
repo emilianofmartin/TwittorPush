@@ -113,9 +113,10 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
   */
   if(auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1") {
     //console.log("Authorized!");
-    let body = "<(cuando)>\n\nEl curso <(curso)> de <(sucursal)> que empieza a las <(horario)> del día <(día)> ya está disponible para que sea reservado.";
+    //let body = "<(cuando)>\n\nEl curso <(curso)> de <(sucursal)> que empieza a las <(horario)> del día <(día)> ya está disponible para que sea reservado.";
+    let body = "El curso <(curso)> de <(sucursal)> que empieza a las <(horario)> del día <(día)> ya está disponible para que sea reservado.";
 
-    body = body.replace("<(cuando)>", new Date);
+    //body = body.replace("<(cuando)>", new Date);
     body = body.replace("<(curso)>", req.body.curso);
     body = body.replace("<(sucursal)>", req.body.sucursal);
     body = body.replace("<(horario)>", req.body.horario);
