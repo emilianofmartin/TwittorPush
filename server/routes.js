@@ -131,7 +131,7 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
       actions: [
         {
           action: 'close',
-          title: req.body.title,
+          title: "Reserva disponible",
           icon: 'images/xmark.png'
         },
       ],
