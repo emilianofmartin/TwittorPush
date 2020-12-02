@@ -80,7 +80,6 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
         .then(() => {
             subscriptions = subscriptions.filter( subs => !subs.delete);
             fs.writeFileSync(`${__dirname}/subs-db.json`, JSON.stringify(subscriptions));
+            return error;
         });
-
-    return error;
 };
