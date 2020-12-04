@@ -113,8 +113,24 @@ router.post('/pushBookingIsAvailable', (req, rsp) => {
   */
   if(auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1") {
     //console.log("Authorized!");
+    var body = "";
+    var title = "";
+    var action = "";
+    var close = ""
     //let body = "<(cuando)>\n\nEl curso <(curso)> de <(sucursal)> que empieza a las <(horario)> del día <(día)> ya está disponible para que sea reservado.";
-    let body = "El curso <(curso)> de <(sucursal)> que empieza a las <(horario)> del día <(día)> ya está disponible para que sea reservado.";
+    const lng = req.body.lng || 'spa';
+    if(lng == "spa") {
+      body = "El curso <(curso)> de <(sucursal)> que empieza a las <(horario)> del día <(día)> ya está disponible para que sea reservado.";
+      title = "Reserva disponible";
+      action = "Reservar";
+      close = "Cerrar";
+    }
+    if(lng == "eng") {
+      body = "The course <(curso)> at <(sucursal)> which starts at <(horario)> on <(día)> is already available for being booked.";
+      title = "Available booking";
+      action = "Book";
+      close = "Close";
+    }
 
     //body = body.replace("<(cuando)>", new Date);
     body = body.replace("<(curso)>", req.body.curso);
@@ -124,7 +140,7 @@ router.post('/pushBookingIsAvailable', (req, rsp) => {
 
     const post = {
       serverVersion,
-      title: "Reserva disponible",
+      title,
       body: body,
       type: 'clss',
       icon: `pushimage.php?file=pushicon.png`,
@@ -138,9 +154,9 @@ router.post('/pushBookingIsAvailable', (req, rsp) => {
       location: req.body.sucursal,
       clssTime: req.body.clssTime,
       actions: [
-        {action: 'view', title: "Reservar",
+        {action: 'view', title: action,
           icon: 'images/checkmark.png'},
-        {action: 'close', title: "Cerrar",
+        {action: 'close', title: close,
           icon: 'images/xmark.png'},
       ],
       url: '/index.php',
@@ -178,12 +194,24 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
   */
   if(auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1") {
     //console.log("Authorized!");
-    let body = "";
-    if(req.body.gender == 2)
-      body = "Hola, <(nombre)>. Has sido anotada en el curso <(curso)> de <(sucursal)> que empieza a las <(horario)> del día <(día)> luego de que se abriera un cupo.";
-    else
-      body = "Hola, <(nombre)>. Has sido anotado en el curso <(curso)> de <(sucursal)> que empieza a las <(horario)> del día <(día)> luego de que se abriera un cupo.";
-  
+    var body = "";
+    var title = "";
+    //var action = "";
+    var close = ""
+    const lng = req.body.lng || 'spa';
+    if(lng == "spa") {
+      if(req.body.gender == 2)
+        body = "Hola, <(nombre)>. Has sido anotada en el curso <(curso)> de <(sucursal)> que empieza a las <(horario)> del día <(día)> luego de que se abriera un cupo.";
+      else
+        body = "Hola, <(nombre)>. Has sido anotado en el curso <(curso)> de <(sucursal)> que empieza a las <(horario)> del día <(día)> luego de que se abriera un cupo.";
+      title = "Reserva realizada";
+      close = "Cerrar";
+    }
+    if(lng == "eng") {
+      body = "Hello, <(nombre)>. You've been booked on the course <(curso)> at <(sucursal)> which starts at <(horario)> on <(día)> after a quota was opened.";
+      title = "Booking was made";
+      close = "Close";
+    }
 
     //body = body.replace("<(cuando)>", new Date);
     body = body.replace("<(nombre)>", req.body.nombre);
@@ -194,7 +222,7 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
 
     const post = {
       serverVersion,
-      title: "Reserva realizada",
+      title,
       body: body,
       type: 'clss',
       icon: `pushimage.php?file=pushicon.png`,
@@ -203,7 +231,7 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
       actions: [
         {
           action: 'close',
-          title: "Cerrar",
+          title: close,
           icon: 'images/xmark.png'
         },
       ],
@@ -242,7 +270,21 @@ router.post('/pushNewMessage', (req, rsp) => {
   */
   if(auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1") {
     //console.log("Authorized!");
-    let body = "Hola, <(nombre)>. Hay un nuevo mensaje en el grupo <(grupo)> de <(remitente)>:\n\n'<(mensaje)>'";
+    const lng = req.body.lng || 'spa';
+    var body = "";
+    var title = "";
+    //var action = "";
+    var close = ""
+    if(lng == "spa") {
+      body = "Hola, <(nombre)>. Hay un nuevo mensaje en el grupo <(grupo)> de <(remitente)>:\n\n'<(mensaje)>'";
+      title = "Nuevo mensaje";
+      close = "Cerrar";
+    }
+    if(lng == "eng") {
+      body = "Hello, <(nombre)>. There is a new message in the group <(grupo)> by <(remitente)>:\n\n'<(mensaje)>'";
+      title = "New message";
+      close = "Close";
+    }
   
 
     //body = body.replace("<(cuando)>", new Date);
@@ -253,7 +295,7 @@ router.post('/pushNewMessage', (req, rsp) => {
 
     const post = {
       serverVersion,
-      title: "Nuevo mensaje",
+      title,
       body: body,
       type: 'msg',
       icon: `pushimage.php?file=pushicon.png`,
@@ -264,7 +306,7 @@ router.post('/pushNewMessage', (req, rsp) => {
       actions: [
         {
           action: 'close',
-          title: "Cerrar",
+          title: close,
           icon: 'images/xmark.png'
         },
       ],
