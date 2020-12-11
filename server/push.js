@@ -114,5 +114,5 @@ module.exports.getSubscriptions = () => {
         //subs.push(subscriptions[i]);
     }
 
-    return susubscriptions.lengthbs;
+    return subscriptions.length;
 }
