@@ -114,5 +114,5 @@ module.exports.getSubscriptions = () => {/*
         subs.push(subscriptions[i]);
     }
 */
-    return subscriptions;
+    return "algo";
 }
