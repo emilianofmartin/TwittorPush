@@ -382,7 +382,7 @@ router.get('/subscription/:regId', (req, rsp) => {
   */
   if(auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1") {
     const subs = push.getSubscriptions();
-    if(subs.includes('send/regId'))
+    if(subs.includes(`send/${regId}`))
       rsp.json('Found');
     else
       rsp.json('Not found');
