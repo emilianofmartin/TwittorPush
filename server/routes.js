@@ -371,3 +371,26 @@ router.get('/subscriptions', (req, rsp) => {
     });
   }
 });
+
+router.get('/subscription/:regId', (req, rsp) => {
+  const auth = req.headers.authorization;
+  const regId = req.params.regId;
+
+  /*
+  console.log("-"+auth+"-");
+  console.log("true", (auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1"));
+  */
+  if(auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1") {
+    const subs = push.getSubscriptions();
+    if(subs.includes('send/regId'))
+      rsp.json('Found');
+    else
+      rsp.json('Not found');
+  }
+  else {
+    rsp.json({
+      ok:false,
+      error: 'Authorization is missing or wrong'
+    });
+  }
+});
