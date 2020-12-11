@@ -353,7 +353,21 @@ function processPost(recipients, p256, auth, post) {
   return { recipients, p256, auth };
 }
 
-//Obtener key público
+//Obtener subscriptions
 router.get('/subscriptions', (req, rsp) => {
-  return push.getSubscriptions();
+  const auth = req.headers.authorization;
+
+  /*
+  console.log("-"+auth+"-");
+  console.log("true", (auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1"));
+  */
+  if(auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1") {
+    rsp.json(push.getSubscriptions());
+  }
+  else {
+    rsp.json({
+      ok:false,
+      error: 'Authorization is missing or wrong'
+    });
+  }
 });
