@@ -383,8 +383,8 @@ router.get('/subscription/:regId', (req, rsp) => {
   if(auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1") {
     const subs = push.getSubscriptions();
     let includes = false;
-    subs.forEach((subs, i) => {
-      if(subs.endpoint.includes(`${regId}`))
+    subs.forEach((s) => {
+      if(s.endpoint.includes(`${regId}`))
         includes = true;
         break;
     });
