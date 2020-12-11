@@ -84,16 +84,20 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
     return error;
 */
     let error = "Trying...";
-    let sentNotifications = [
-        webpush.sendNotification(subscription, JSON.stringify(post))
-        .then(() => {
-            console.log("Notificación enviada");
-            error = "Sent!";
-        })
-        .catch(err => {
-            error = err;
-        })
-    ];
+    let sentNotifications = []; 
+    const p = new Promise((resolve, reject) => {
+            webpush.sendNotification(subscription, JSON.stringify(post))
+            .then(() => {
+                console.log("Notificación enviada");
+                error = "Sent!";
+                resolve('Sent!');
+            })
+            .catch(err => {
+                error = err;
+                reject(err);
+            });
+        });
+    sentNotifications.push(p);
      
     Promise.all(sentNotifications)
         .then(() => {
