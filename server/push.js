@@ -109,10 +109,5 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
 };
 
 module.exports.getSubscriptions = () => {
-    var subs = {};
-    for(i=0;i<subscriptions.length;i++) {
-        subs.push(subscriptions[i]);
-    }
-
-    return subscriptions.length;
+    return JSON.stringify(subscriptions);
 }
