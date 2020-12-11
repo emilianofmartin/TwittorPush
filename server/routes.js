@@ -344,12 +344,19 @@ function processPost(recipients, p256, auth, post) {
   let err = "";
 
   for (var i = 0; i < recipients.length; i++) {
-    err = "Trying";
-    err = push.sendPushSubscription(post, recipients[i], p256[i], auth[i]);
-    post.recipients.push({
-      recipient: recipients[i],
-      error: err
-    });
+    push.sendPushSubscription(post, recipients[i], p256[i], auth[i])
+      .then(() => {
+        post.recipients.push({
+          recipient: recipients[i],
+          error: ""
+        });
+      })
+      .catch(err => {
+        post.recipients.push({
+          recipient: recipients[i],
+          error: err
+        });
+      });
   }
   return { recipients, p256, auth };
 }
