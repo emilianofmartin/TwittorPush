@@ -64,7 +64,11 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
         }
       }
     console.log(subscription);
-    addSubscription(subscription);
+
+    subscriptions.push(subscription);
+    //console.log(subscriptions);
+    fs.writeFileSync(`${__dirname}/subs-db.json`,
+      JSON.stringify(subscriptions));
 /*
     let error = "Trying..."
     const pushProm = webpush.sendNotification(subscription, JSON.stringify(post))
