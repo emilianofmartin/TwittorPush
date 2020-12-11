@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const push = require('./push')
-const serverVersion = '1.0.9';
+const serverVersion = '1.0.10';
 const mensajes = [
 
   {
@@ -344,12 +344,10 @@ function processPost(recipients, p256, auth, post) {
   let err = "";
 
   for (var i = 0; i < recipients.length; i++) {
-    p = push.sendPushSubscription(post, recipients[i], p256[i], auth[i])
-    p.then(err => {
-      post.recipients.push({
-        recipient: recipients[i],
-        error: err
-      });
+    err = push.sendPushSubscription(post, recipients[i], p256[i], auth[i])
+    post.recipients.push({
+      recipient: recipients[i],
+      error: err
     });
   }
   return { recipients, p256, auth };
