@@ -367,7 +367,7 @@ router.get('/subscriptions', (req, rsp) => {
   else {
     rsp.json({
       ok:false,
-      error: 'auth Authorization is missing or wrong'
+      error: 'Authorization is missing or wrong'
     });
   }
 });

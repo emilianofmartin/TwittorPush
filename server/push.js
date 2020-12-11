@@ -108,11 +108,11 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
     return 'Did not wait!';
 };
 
-module.exports.getSubscriptions = () => {/*
-    var subs = {};
+module.exports.getSubscriptions = () => {
+    var subs = {};/*
     for(i=0;i<subscriptions.length;i++) {
         subs.push(subscriptions[i]);
-    }
-*/
-    return "algo";
+    }*/
+
+    return subs;
 }
