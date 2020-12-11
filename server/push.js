@@ -99,4 +99,6 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
         .then(() => {
             return error;
         });
+
+    return 'Didn\'t wait!';
 };
