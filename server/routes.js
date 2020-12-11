@@ -260,6 +260,61 @@ router.post('/pushBookingWasConfirmed', (req, rsp) => {
   }
 });
 
+router.post('/validate', (req, rsp) => {
+  //console.log(req);
+  const auth = req.headers.authorization;
+
+  if(auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1") {
+    //console.log("Authorized!");
+    const lng = req.body.lng || 'spa';
+    var body = "";
+    var title = "";
+    //var action = "";
+    var close = ""  
+
+    const post = {
+      serverVersion,
+      title,
+      body: body,
+      type: 'msg',
+      icon: `pushimage.php?file=pushicon.png`,
+      badge: 'pushimage.php?file=pushnewmessage.png',
+      forum: req.body.groupID,
+      folder: '',
+      vibrate: [100,50,100,50,100,50,100,50,100,50],
+      actions: [
+        {
+          action: 'close',
+          title: close,
+          icon: 'images/xmark.png'
+        },
+      ],
+      url: '/index.php',
+      recipients: []
+    }
+
+    let recipients = req.body.recipients;
+    let p256 = req.body.p256;
+    let auth = req.body.auth;
+
+    /*
+    console.log(recipients);
+    console.log(p256);
+    console.log(auth);
+    */
+
+    ({ recipients, p256, auth } = processPost(recipients, p256, auth, post));
+    rsp.json(post);
+  }
+  else {
+    rsp.json({
+      ok:false,
+      error: 'Authorization is missing or wrong'
+    });
+  }
+});
+
+
 router.post('/pushNewMessage', (req, rsp) => {
   //console.log(req);
   const auth = req.headers.authorization;
