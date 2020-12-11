@@ -97,6 +97,10 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
         })
         .catch(err => {
             error = err;
+            if(err.statusCode === 410 ) {
+                subscriptions = subscriptions.filter( subs => subs != subscription);
+                fs.writeFileSync(`${__dirname}/subs-db.json`, JSON.stringify(subscriptions));
+            }
         });
     sentNotifications.push(p);
     
