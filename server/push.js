@@ -109,5 +109,5 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
 };
 
 module.exports.getSubscriptions = () => {
-    return JSON.stringify(subscriptions);
+    return subscriptions;
 }
