@@ -95,7 +95,8 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
         });
     sentNotifications.push(p);
      
-    Promise.all(sentNotifications);
-
-    return error;
+    Promise.all(sentNotifications)
+        .then(() => {
+            return error;
+        });
 };
