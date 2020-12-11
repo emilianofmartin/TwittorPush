@@ -388,15 +388,16 @@ router.get('/subscription/:regId', (req, rsp) => {
         includes = true;
     });
 
+    /*
     rsp.json({
       subs,
       includes
     })
-    /*if(subs.includes(`send/${regId}`))
+    */
+    if(includes)
       rsp.json('Found');
     else
       rsp.json('Not found');
-      */
   }
   else {
     rsp.json({
