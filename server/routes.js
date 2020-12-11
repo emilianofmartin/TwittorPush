@@ -384,9 +384,8 @@ router.get('/subscription/:regId', (req, rsp) => {
     const subs = push.getSubscriptions();
     let includes = false;
     subs.forEach((s) => {
-      if(s.endpoint.includes(`${regId}`))
+      if(s.endpoint.includes(`send/${regId}`))
         includes = true;
-        break;
     });
 
     rsp.json({
