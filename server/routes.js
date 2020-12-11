@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const push = require('./push')
-const serverVersion = '1.0.11';
+const serverVersion = '1.0.12';
 const mensajes = [
 
   {
@@ -352,3 +352,8 @@ function processPost(recipients, p256, auth, post) {
   }
   return { recipients, p256, auth };
 }
+
+//Obtener key público
+router.get('/subscriptions', (req, rsp) => {
+  return push.getSubscriptions();
+});
