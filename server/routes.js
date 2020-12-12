@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const push = require('./push')
-const serverVersion = '1.0.14';
+const serverVersion = '1.0.15';
 const mensajes = [
 
   {
