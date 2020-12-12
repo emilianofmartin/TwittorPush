@@ -35,7 +35,7 @@ module.exports.sendPushToAll = (post) => {
                 console.log("Notificación falló");
                 console.log(err.statusCode);
 
-                if(err.statusCode === 410 ) {
+                if(err.statusCode === 404 ) {
                     //GONE
                     subscriptions[i].delete = true;
                     //No la borro directamente, porque si lo hiciera
@@ -97,7 +97,7 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
         })
         .catch(err => {
             error = err;
-            if(err.statusCode === 410 ) {
+            if(err.statusCode === 404 ) {
                 subscriptions = subscriptions.filter( subs => subs.endpoint != subscription.endpoint);
                 fs.writeFileSync(`${__dirname}/subs-db.json`, JSON.stringify(subscriptions));
             }
