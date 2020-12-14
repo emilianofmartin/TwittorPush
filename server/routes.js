@@ -467,7 +467,7 @@ router.get('/subscription/:regId', (req, rsp) => {
 
     ({ recipients, p256, auth } = processPost(recipients, p256, auth, post));
 
-    waitForIt(500);
+    //waitForIt(500);
 
     const subs = push.getSubscriptions();
     let includes = false;
