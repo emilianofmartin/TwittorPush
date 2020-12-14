@@ -493,10 +493,10 @@ router.get('/fullSubscription/:regId/:keyP256/:keyAuth', (req, rsp) => {
       url: '/index.php',
       recipients: []
     }
-
+/*
     ({ regId, keyP256, keyAuth } = processPost(regId, keyP256, keyAuth, post));
     waitForIt(200);
-
+*/
     const subs = push.getSubscriptions();
     let includes = false;
     subs.forEach((s) => {
