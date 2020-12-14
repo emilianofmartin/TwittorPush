@@ -461,3 +461,15 @@ router.get('/subscription/:regId', (req, rsp) => {
     });
   }
 });
+
+async function waitForIt(milliseconds) {
+  console.log(1);
+  await sleep(milliseconds);
+  console.log(2);
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}   
