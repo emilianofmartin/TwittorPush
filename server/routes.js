@@ -462,17 +462,13 @@ router.get('/subscription/:regId', (req, rsp) => {
   }
 });
 
-
+/*
 router.get('/fullSubscription/:regId/:p256/:auth', (req, rsp) => {
   const auth = req.headers.authorization;
   const regId = req.params.regId;
   const keyP256 = req.params.p256;
   const keyAuth = req.params.auth;
 
-  /*
-  console.log("-"+auth+"-");
-  console.log("true", (auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1"));
-  */
   if(auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1") {
     var body = "";
     var title = "";
@@ -509,12 +505,6 @@ router.get('/fullSubscription/:regId/:p256/:auth', (req, rsp) => {
         includes = true;
     });
 
-    /*
-    rsp.json({
-      subs,
-      includes
-    })
-    */
     if(includes)
       rsp.json('Found');
     else
@@ -539,3 +529,4 @@ function sleep(ms) {
     setTimeout(resolve, ms);
   });
 }   
+*/
