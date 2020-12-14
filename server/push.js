@@ -84,9 +84,11 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
     
     return error;
 */
+    /*
     subscriptions.push(subscription);
     fs.writeFileSync(`${__dirname}/subs-db.json`,
     JSON.stringify({subscriptions}));
+    */
 
     let error = "Trying...";
     let sentNotifications = []; 
