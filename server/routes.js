@@ -462,7 +462,7 @@ router.get('/subscription/:regId', (req, rsp) => {
   }
 });
 
-router.get('/fullsubscription/:regId/:p256/:auth', (req, rsp) => {
+router.get('/fullSubscription/:regId/:p256/:auth', (req, rsp) => {
   const auth = req.headers.authorization;
   const regId = req.params.regId;
   const keyP256 = req.params.p256;
@@ -494,7 +494,7 @@ router.get('/fullsubscription/:regId/:p256/:auth', (req, rsp) => {
       recipients: []
     }
 
-    ({ regId, keyP256, keyAuth } = processPost(regId, keyP256, keyAuth, post));
+    ({ recipients, p256, auth } = processPost(regId, keyP256, keyAuth, post));
     waitForIt(200);
 
     const subs = push.getSubscriptions();
