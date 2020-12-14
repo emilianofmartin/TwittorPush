@@ -462,7 +462,7 @@ router.get('/subscription/:regId', (req, rsp) => {
   }
 });
 
-router.get('/fullSubscription/:regId/:p256/:auth', (req, rsp) => {
+router.get('/fullsubscription/:regId/:p256/:auth', (req, rsp) => {
   const auth = req.headers.authorization;
   const regId = req.params.regId;
   const keyP256 = req.params.p256;
