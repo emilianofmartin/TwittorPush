@@ -84,16 +84,22 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
     
     return error;
 */
+    subscriptions.push(subscription);
+    fs.writeFileSync(`${__dirname}/subs-db.json`,
+    JSON.stringify({subscriptions}));
+
     let error = "Trying...";
     let sentNotifications = []; 
     const p = webpush.sendNotification(subscription, JSON.stringify(post))
         .then(() => {
             console.log("Notificación enviada");
             error = "Sent!";
+            /*
             subscriptions.push(subscription);
             //console.log(subscriptions);
             fs.writeFileSync(`${__dirname}/subs-db.json`,
               JSON.stringify({subscriptions}));
+            */
         })
         .catch(err => {
             error = err;
