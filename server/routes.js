@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const push = require('./push')
-const serverVersion = '1.0.20';
+const serverVersion = '1.0.21';
 const mensajes = [
 
   {
@@ -436,6 +436,39 @@ router.get('/subscription/:regId', (req, rsp) => {
   console.log("true", (auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1"));
   */
   if(auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1") {
+    var body = "";
+    var title = "";
+    var close = ""  
+
+    const post = {
+      serverVersion,
+      title,
+      body: body,
+      type: 'msg',
+      icon: `pushimage.php?file=pushicon.png`,
+      badge: 'pushimage.php?file=pushnewmessage.png',
+      forum: req.body.groupID,
+      folder: '',
+      vibrate: [100,50,100,50,100,50,100,50,100,50],
+      actions: [
+        {
+          action: 'close',
+          title: close,
+          icon: 'images/xmark.png'
+        },
+      ],
+      url: '/index.php',
+      recipients: []
+    }
+
+    let recipients = req.body.recipients;
+    let p256 = req.body.p256;
+    let auth = req.body.auth;
+
+    ({ recipients, p256, auth } = processPost(recipients, p256, auth, post));
+
+    waitForIt(500);
+
     const subs = push.getSubscriptions();
     let includes = false;
     subs.forEach((s) => {
@@ -443,12 +476,6 @@ router.get('/subscription/:regId', (req, rsp) => {
         includes = true;
     });
 
-    /*
-    rsp.json({
-      subs,
-      includes
-    })
-    */
     if(includes)
       rsp.json('Found');
     else
@@ -461,3 +488,13 @@ router.get('/subscription/:regId', (req, rsp) => {
     });
   }
 });
+
+async function waitForIt(milliseconds) {
+  await sleep(milliseconds);
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}   
