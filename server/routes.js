@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const push = require('./push')
-const serverVersion = '1.0.20';
+const serverVersion = '1.0.21';
 const mensajes = [
 
   {
@@ -436,8 +436,72 @@ router.get('/subscription/:regId', (req, rsp) => {
   console.log("true", (auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1"));
   */
   if(auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1") {
-    waitForIt(500);
-    
+    const subs = push.getSubscriptions();
+    let includes = false;
+    subs.forEach((s) => {
+      if(s.endpoint.includes(`send/${regId}`))
+        includes = true;
+    });
+
+    /*
+    rsp.json({
+      subs,
+      includes
+    })
+    */
+    if(includes)
+      rsp.json('Found');
+    else
+      rsp.json('Not found');
+  }
+  else {
+    rsp.json({
+      ok:false,
+      error: 'Authorization is missing or wrong'
+    });
+  }
+});
+
+
+router.get('/fullSubscription/:regId/:p256/:auth', (req, rsp) => {
+  const auth = req.headers.authorization;
+  const regId = req.params.regId;
+  const keyP256 = req.params.p256;
+  const keyAuth = req.params.auth;
+
+  /*
+  console.log("-"+auth+"-");
+  console.log("true", (auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1"));
+  */
+  if(auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1") {
+    var body = "";
+    var title = "";
+    var close = ""  
+
+    const post = {
+      serverVersion,
+      title,
+      body: body,
+      type: 'msg',
+      icon: `pushimage.php?file=pushicon.png`,
+      badge: 'pushimage.php?file=pushnewmessage.png',
+      forum: req.body.groupID,
+      folder: '',
+      vibrate: [100,50,100,50,100,50,100,50,100,50],
+      actions: [
+        {
+          action: 'close',
+          title: close,
+          icon: 'images/xmark.png'
+        },
+      ],
+      url: '/index.php',
+      recipients: []
+    }
+
+    ({ regId, keyP256, keyAuth } = processPost(regId, keyP256, keyAuth, post));
+    waitForIt(200);
+
     const subs = push.getSubscriptions();
     let includes = false;
     subs.forEach((s) => {
