@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const push = require('./push')
-const serverVersion = '1.0.21';
+const serverVersion = '1.0.20';
 const mensajes = [
 
   {
@@ -467,8 +467,6 @@ router.get('/subscription/:regId', (req, rsp) => {
 
     ({ recipients, p256, auth } = processPost(recipients, p256, auth, post));
 
-    //waitForIt(500);
-
     const subs = push.getSubscriptions();
     let includes = false;
     subs.forEach((s) => {
@@ -488,13 +486,3 @@ router.get('/subscription/:regId', (req, rsp) => {
     });
   }
 });
-
-async function waitForIt(milliseconds) {
-  await sleep(milliseconds);
-}
-
-function sleep(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}   
