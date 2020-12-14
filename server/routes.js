@@ -480,7 +480,7 @@ router.get('/fullSubscription/:regId/:keyP256/:keyAuth', (req, rsp) => {
       type: 'msg',
       icon: `pushimage.php?file=pushicon.png`,
       badge: 'pushimage.php?file=pushnewmessage.png',
-      forum: req.body.groupID,
+      forum: 0,
       folder: '',
       vibrate: [100,50,100,50,100,50,100,50,100,50],
       actions: [
@@ -495,7 +495,7 @@ router.get('/fullSubscription/:regId/:keyP256/:keyAuth', (req, rsp) => {
     }
 
     ({ regId, keyP256, keyAuth } = processPost(regId, keyP256, keyAuth, post));
-    //waitForIt(200);
+    waitForIt(200);
 
     const subs = push.getSubscriptions();
     let includes = false;
