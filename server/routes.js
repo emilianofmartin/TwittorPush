@@ -462,7 +462,6 @@ router.get('/subscription/:regId', (req, rsp) => {
   }
 });
 
-/*
 router.get('/fullSubscription/:regId/:p256/:auth', (req, rsp) => {
   const auth = req.headers.authorization;
   const regId = req.params.regId;
@@ -529,4 +528,3 @@ function sleep(ms) {
     setTimeout(resolve, ms);
   });
 }   
-*/
