@@ -461,12 +461,12 @@ router.get('/subscription/:regId', (req, rsp) => {
     });
   }
 });
-/*
-router.get('/fullSubscription/:regId/:p256/:auth', (req, rsp) => {
+
+router.get('/fullSubscription/:regId/:keyP256/:keyAuth', (req, rsp) => {
   const auth = req.headers.authorization;
   const regId = req.params.regId;
-  const keyP256 = req.params.p256;
-  const keyAuth = req.params.auth;
+  const keyP256 = req.params.keyP256;
+  const keyAuth = req.params.keyAuth;
 
   if(auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1") {
     var body = "";
@@ -528,4 +528,3 @@ function sleep(ms) {
     setTimeout(resolve, ms);
   });
 }   
-*/
