@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const push = require('./push')
-const serverVersion = '1.0.21';
+const serverVersion = '1.0.22';
 const mensajes = [
 
   {
@@ -392,22 +392,6 @@ router.post('/pushNewMessage', (req, rsp) => {
 
 module.exports = router;
 
-function processPost(recipients, p256, auth, post) {
-  recipients = recipients.split(',');
-  p256 = p256.split(',');
-  auth = auth.split(',');
-  let err = "";
-
-  for (var i = 0; i < recipients.length; i++) {
-    err = push.sendPushSubscription(post, recipients[i], p256[i], auth[i])
-    post.recipients.push({
-      recipient: recipients[i],
-      error: err
-    });
-  }
-  return { recipients, p256, auth };
-}
-
 //Obtener subscriptions
 router.get('/subscriptions', (req, rsp) => {
   const auth = req.headers.authorization;
@@ -528,3 +512,19 @@ function sleep(ms) {
     setTimeout(resolve, ms);
   });
 }   
+
+function processPost(recipients, p256, auth, post) {
+  recipients = recipients.split(',');
+  p256 = p256.split(',');
+  auth = auth.split(',');
+  let err = "";
+
+  for (var i = 0; i < recipients.length; i++) {
+    err = push.sendPushSubscription(post, recipients[i], p256[i], auth[i])
+    post.recipients.push({
+      recipient: recipients[i],
+      error: err
+    });
+  }
+  return { recipients, p256, auth };
+}
