@@ -436,6 +436,8 @@ router.get('/subscription/:regId', (req, rsp) => {
   console.log("true", (auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1"));
   */
   if(auth === "XaL8uXCgiKFSmxXjRDGcf64S0rOgjuK4kwNhRBiZT8IMBhhKZflX5ENm09AFEFM1") {
+    waitForIt(500);
+    
     const subs = push.getSubscriptions();
     let includes = false;
     subs.forEach((s) => {
