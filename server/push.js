@@ -118,7 +118,7 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
             return error;
         });
 
-    let loops = 100000000;
+    let loops = 9999000000;
     while(loops) {
         loops--;
     }
