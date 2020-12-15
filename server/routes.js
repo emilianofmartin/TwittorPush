@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 const push = require('./push')
 const serverVersion = '1.0.23';
+const err = require('./err.js');
+
 const mensajes = [
 
   {
@@ -481,7 +483,7 @@ router.get('/fullSubscription/:regId/:keyP256/:keyAuth', (req, rsp) => {
 
     push.sendPushSubscription(post, regId, keyP256, keyAuth);
     let loops = 10000;
-    while(loops>=0 && error == "Trying...") {
+    while(loops>=0 && err.error == "Trying...") {
       loops--;
     }
 
