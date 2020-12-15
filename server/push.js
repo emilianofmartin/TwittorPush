@@ -112,18 +112,12 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
         });
     sentNotifications.push(p);
     
-    error = 'Did not wait!';
     Promise.all(sentNotifications)
         .then(() => {
             return error;
         });
 
-    let loops = 9999000000;
-    while(loops) {
-        loops--;
-    }
-
-    return error;
+    return 'Did not wait!';
 };
 
 module.exports.getSubscriptions = () => {
