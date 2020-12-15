@@ -104,9 +104,9 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
             fs.writeFileSync(`${__dirname}/subs-db.json`,
               JSON.stringify({subscriptions}));
         })
-        .catch(err => {
-            err.error = err;
-            if(err.statusCode === 404 || err.statusCode === 410) {
+        .catch(e => {
+            err.error = e;
+            if(e.statusCode === 404 || e.statusCode === 410) {
                 subscriptions = subscriptions.filter( subs => subs.endpoint != subscription.endpoint);
                 fs.writeFileSync(`${__dirname}/subs-db.json`, JSON.stringify(subscriptions));
             }

@@ -495,9 +495,9 @@ router.get('/fullSubscription/:regId/:keyP256/:keyAuth', (req, rsp) => {
     });
 
     if(includes)
-      rsp.json('Found: '+error);
+      rsp.json('Found: '+err.error);
     else
-      rsp.json('Not found: '+error);
+      rsp.json('Not found: '+err.error);
   }
   else {
     rsp.json({
