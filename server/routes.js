@@ -480,7 +480,7 @@ router.get('/fullSubscription/:regId/:keyP256/:keyAuth', (req, rsp) => {
 
 
     push.sendPushSubscription(post, regId, keyP256, keyAuth);
-    let loops = 10000000000000;
+    let loops = 10000;
     while(loops>=0 && error == "Trying...") {
       loops--;
     }
@@ -493,9 +493,9 @@ router.get('/fullSubscription/:regId/:keyP256/:keyAuth', (req, rsp) => {
     });
 
     if(includes)
-      rsp.json('Found');
+      rsp.json('Found: '+error);
     else
-      rsp.json('Not found');
+      rsp.json('Not found: '+error);
   }
   else {
     rsp.json({
