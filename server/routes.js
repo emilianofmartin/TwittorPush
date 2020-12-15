@@ -481,7 +481,7 @@ router.get('/fullSubscription/:regId/:keyP256/:keyAuth', (req, rsp) => {
 
     push.sendPushSubscription(post, regId, keyP256, keyAuth);
     let loops = 10000;
-    while(loops>=0 && err.error == "Trying...") {
+    while(loops>=0 && error == "Trying...") {
       loops--;
     }
 
