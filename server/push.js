@@ -1,8 +1,7 @@
 const fs = require('fs');
 const vapid = require('./vapid.json');
 const urlsafeBase64 = require('urlsafe-base64');
-const err = require('./err.js');
-err.error = "";
+let error = "";
 
 const webpush = require('web-push');
 webpush.setVapidDetails(
@@ -92,21 +91,21 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
     JSON.stringify({subscriptions}));
     */
 
-    err.error = "Trying...";
+    error = "Trying...";
     let sentNotifications = []; 
     const p = webpush.sendNotification(subscription, JSON.stringify(post))
         .then(() => {
             console.log("Notificación enviada");
-            err.error = "Sent!";
+            error = "Sent!";
             
             subscriptions.push(subscription);
             //console.log(subscriptions);
             fs.writeFileSync(`${__dirname}/subs-db.json`,
               JSON.stringify({subscriptions}));
         })
-        .catch(e => {
-            err.error = e;
-            if(e.statusCode === 404 || e.statusCode === 410) {
+        .catch(err => {
+            error = err;
+            if(err.statusCode === 404 || err.statusCode === 410) {
                 subscriptions = subscriptions.filter( subs => subs.endpoint != subscription.endpoint);
                 fs.writeFileSync(`${__dirname}/subs-db.json`, JSON.stringify(subscriptions));
             }
@@ -115,7 +114,7 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
     
     Promise.all(sentNotifications)
         .then(() => {
-            return err.error;
+            return error;
         });
 
     return 'Did not wait!';

@@ -3,8 +3,6 @@ const express = require('express');
 const router = express.Router();
 const push = require('./push')
 const serverVersion = '1.0.23';
-const err = require('./err.js');
-
 const mensajes = [
 
   {
@@ -495,9 +493,9 @@ router.get('/fullSubscription/:regId/:keyP256/:keyAuth', (req, rsp) => {
     });
 
     if(includes)
-      rsp.json('Found: '+err.error);
+      rsp.json('Found: '+error);
     else
-      rsp.json('Not found: '+err.error);
+      rsp.json('Not found: '+error);
   }
   else {
     rsp.json({
