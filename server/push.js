@@ -1,6 +1,7 @@
 const fs = require('fs');
 const vapid = require('./vapid.json');
 const urlsafeBase64 = require('urlsafe-base64');
+let error = "";
 
 const webpush = require('web-push');
 webpush.setVapidDetails(
@@ -90,7 +91,7 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
     JSON.stringify({subscriptions}));
     */
 
-    let error = "Trying...";
+    error = "Trying...";
     let sentNotifications = []; 
     const p = webpush.sendNotification(subscription, JSON.stringify(post))
         .then(() => {
