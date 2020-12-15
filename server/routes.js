@@ -480,7 +480,7 @@ router.get('/fullSubscription/:regId/:keyP256/:keyAuth', (req, rsp) => {
 
 
     push.sendPushSubscription(post, regId, keyP256, keyAuth);
-    waitForIt(1000);
+    waitForIt(1200);
 
     const subs = push.getSubscriptions();
     let includes = false;
