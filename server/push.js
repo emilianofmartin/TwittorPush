@@ -113,7 +113,7 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
     sentNotifications.push(p);
 
     let loops = 0;
-    while(loops < 1000) {
+    while(loops < 10000) {
         loops++;
         for(var i = 0;i<100000 && error == "Trying..."; i++) {
             let a = i;
