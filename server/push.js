@@ -113,9 +113,10 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
     sentNotifications.push(p);
 
     let loops = 0;
-    while(loops < 10000) {
+    err = 'Did not wait!';
+    while(loops < 1000) {
         loops++;
-        for(var i = 0;i<100000 && error == "Trying"; i++) {
+        for(var i = 0;i<100000 && error == "Did not wait"; i++) {
             let a = i;
         }
     }
@@ -125,7 +126,7 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
             return error;
         });
 
-    return 'Did not wait! loops: '+loops;
+    return error +' loops: '+loops;
 };
 
 module.exports.getSubscriptions = () => {
