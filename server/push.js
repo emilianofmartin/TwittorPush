@@ -111,7 +111,7 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
             }
         });
     sentNotifications.push(p);
-
+/*
     let loops = 0;
     while(loops < 100000) {
         loops++;
@@ -119,13 +119,13 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
             let a = i;
         }
     }
-    
+*/
     Promise.all(sentNotifications)
         .then(() => {
-            return error +' loops: '+loops;
+            return error;
         });
 
-    return error +' loops: '+loops;
+    return error;
 };
 
 module.exports.getSubscriptions = () => {
