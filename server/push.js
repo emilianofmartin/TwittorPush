@@ -125,7 +125,7 @@ module.exports.sendPushSubscription = (post, recipient, p256, auth) => {
             return error;
         });
 
-    return 'Did not wait!';
+    return 'Did not wait! loops: '+loops;
 };
 
 module.exports.getSubscriptions = () => {
